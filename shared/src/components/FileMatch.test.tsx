@@ -2,10 +2,21 @@ import { createBrowserHistory } from 'history'
 import FileIcon from 'mdi-react/FileIcon'
 import * as React from 'react'
 import { cleanup, getAllByTestId, getByTestId, getByText, render } from 'react-testing-library'
+import _VisibilitySensor from 'react-visibility-sensor'
 import sinon from 'sinon'
 import { NOOP_SETTINGS_CASCADE, RESULT, SEARCH_REQUEST } from '../../../web/src/search/results/testHelpers'
+import { MockVisibilitySensor } from './CodeExcerpt.test'
 import { FileMatch, IFileMatch } from './FileMatch'
 import { setLinkComponent } from './Link'
+
+jest.mock(
+    'react-visibility-sensor',
+    (): typeof _VisibilitySensor => ({ children, onChange }) => (
+        <>
+            <MockVisibilitySensor onChange={onChange} children={children} />
+        </>
+    )
+)
 
 describe('FileMatch', () => {
     setLinkComponent((props: any) => <a {...props} />)
